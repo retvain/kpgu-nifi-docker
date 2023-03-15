@@ -1,0 +1,37 @@
+{
+  "require": {
+    "php": "^7.3",
+    "voskhod/tech-extensions": "dev-develop",
+    "xpackages/utils": "*",
+    "xpackages/database": "*",
+    "ext-pdo": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Common\\": "Common/",
+      "ScanNewFolders\\": "ScanNewFolders/"
+    }
+  },
+  "config": {
+    "gitlab-domains": [
+      "git.voskhod-11.ru"
+    ]
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://git.voskhod-11.ru/api/v4/group/105/-/packages/composer/"
+    },
+    {
+      "type": "composer",
+      "url": "https://git.voskhod-11.ru/api/v4/group/115/-/packages/composer/"
+    },
+    {
+      "type": "composer",
+      "url": "https://satis.gosedo.voskhod-11.ru"
+    },
+    {
+      "packagist": false
+    }
+  ]
+}

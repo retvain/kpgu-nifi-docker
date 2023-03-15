@@ -17,7 +17,9 @@ RUN apt-get update && apt-get install --no-install-recommends -qy \
         unzip \
         git \
         libzip-dev \
-        locales
+        locales \
+        wget \
+        unzip
 
 # Locale
 RUN sed -i -e \
@@ -55,9 +57,18 @@ COPY keys.tags.pub /var/www/.composer/keys.tags.pub
 COPY cacert.pem /etc/ssl/certs/cacert.pem
 
 # java
+RUN mkdir -p /opt/java && \
+    cd /opt/java && \
+    wget https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u332-b09/OpenJDK8U-jdk_x64_linux_hotspot_8u332b09.tar.gz && \
+    tar xf OpenJDK8U-jdk_x64_linux_hotspot_8u332b09.tar.gz && \
+    ls -ltha && \
+    cd jdk8u332-b09/bin && \
+    ./java -version
+ENV PATH="/opt/java/jdk8u332-b09/bin:${PATH}"
 
+WORKDIR /nifi/bin/
 
-#RUN usermod -u ${HOST_UID} www-data
-#USER www-data
+RUN usermod -u ${HOST_UID} www-data
+USER www-data
 
 EXPOSE 9000

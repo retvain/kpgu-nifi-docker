@@ -2,19 +2,22 @@ version: '3.7'
 services:
   app:
     container_name: app
-    volumes:
-      - ./processors:/var/www
-    build:
-      context: ./app
-      args:
-        HOST_UID: 1000
     restart: always
     ports:
       - 9000
       - 8080:8080
+    volumes:
+      - ./data/nifi:/nifi/
+      - ./scripts:/var/www
+      - ./Migrations:/migrations
+      - ./data/kpgu:/kpgu
     environment:
       XDEBUG_CONFIG: "remote_host=host.docker.internal remote_enable=1"
       PHP_IDE_CONFIG: "serverName=Docker"
+    build:
+      context: ./app
+      args:
+        HOST_UID: 1000
     networks:
       - nifi-kpgu
     depends_on:
@@ -30,7 +33,7 @@ services:
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     ports:
-      - 54328:5432
+      - 5432:5432
     volumes:
       - ./postgres/:/docker-entrypoint-initdb.d/
     # - ./data/postgresql/data:/var/lib/postgresql/data
